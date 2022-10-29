@@ -17,7 +17,6 @@ recordRoutes.route("/todos").get(async (req, res) => {
       if (err) {
         res.status(400).send("Error fetching todos!");
       } else {
-        console.log("get all todo tasks");
         res.json(result);
       }
     });
@@ -30,11 +29,25 @@ recordRoutes.post("/todos/create", async (req, res) => {
     .collection("todoTasks")
     .insertOne(todo)
     .then((result) => {
-      console.log("create a new todo");
       res.json(result);
     })
     .catch(() => {
       res.status(400).send("Error creating todo!");
+    });
+});
+
+recordRoutes.route("/todos/delete").post(async function (req, res) {
+  const dbConnect = dbo.getDb();
+  const { id } = req.body;
+  dbConnect
+    .collection("todoTasks")
+    .updateOne({ id }, { $set: { status: "deleted" } })
+    .then((result) => {
+      console.log("delete todo");
+      res.json(result);
+    })
+    .catch(() => {
+      res.status(400).send("Error delete todo!");
     });
 });
 
