@@ -51,6 +51,20 @@ recordRoutes.route("/todos/delete").post(async function (req, res) {
     });
 });
 
+recordRoutes.route("/todos/deleteCompleted").post(async function (req, res) {
+  const dbConnect = dbo.getDb();
+  dbConnect
+    .collection("todoTasks")
+    .updateMany({ status: "completed" }, { $set: { status: "deleted" } })
+    .then((result) => {
+      console.log("delete all completed todos");
+      res.json(result);
+    })
+    .catch(() => {
+      res.status(400).send("Error delete all completed todos!");
+    });
+});
+
 recordRoutes.route("/todos/update").post(async function (req, res) {
   const dbConnect = dbo.getDb();
   const { id, isChecked } = req.body;
