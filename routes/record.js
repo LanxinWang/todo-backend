@@ -66,4 +66,22 @@ recordRoutes.route("/todos/update").post(async function (req, res) {
     });
 });
 
+recordRoutes.route("/todos/updateAll").post(async function (req, res) {
+  const dbConnect = dbo.getDb();
+  const { isChecked } = req.body;
+  dbConnect
+    .collection("todoTasks")
+    .updateMany(
+      { status: { $nin: ["deleted"] } },
+      { $set: { status: isChecked ? "completed" : "active" } }
+    )
+    .then((result) => {
+      console.log("change the todos status");
+      res.json(result);
+    })
+    .catch(() => {
+      res.status(400).send("Error update todos status!");
+    });
+});
+
 module.exports = recordRoutes;
