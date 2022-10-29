@@ -1,13 +1,13 @@
 const { MongoClient } = require("mongodb"); //connect to my mongodb database
 
-const newListing = {
-  name: "JJ",
-  summary: "none",
-  bedrooms: 2,
-  beds: 10,
+const todo = {
+  id: "3",
+  name: "todo2",
+  status: "active",
 };
 async function main() {
-  const uri = "mongodb+srv://demo:demo@cluster0.wl3hijw.mongodb.net/test";
+  const uri =
+    "mongodb+srv://root:root@cluster0.do1n9zu.mongodb.net/?retryWrites=true&w=majority";
 
   //create instance of mongo client
   const client = new MongoClient(uri);
