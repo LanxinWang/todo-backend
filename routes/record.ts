@@ -8,12 +8,12 @@ const recordRoutes = express.Router();
 recordRoutes.route("/todos").get(async (req, res) => {
   todoCollection
     .find({})
-    .toArray(function (err, result) {
-      if (err) {
-        res.status(400).send("Error fetching todos!");
-      } else {
-        res.json(result);
-      }
+    .toArray()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(() => {
+      res.status(400).send("Error fetching todos!");
     });
 });
 
@@ -29,7 +29,7 @@ recordRoutes.post("/todos/create", async (req, res) => {
     });
 });
 
-recordRoutes.route("/todos/delete").post(async function (req, res) {
+recordRoutes.route("/todos/delete").post(async (req, res) => {
   const { id } = req.body;
   todoCollection
     .updateOne({ id }, { $set: { status: "deleted" } })
@@ -42,7 +42,7 @@ recordRoutes.route("/todos/delete").post(async function (req, res) {
     });
 });
 
-recordRoutes.route("/todos/deleteCompleted").post(async function (req, res) {
+recordRoutes.route("/todos/deleteCompleted").post(async (req, res) => {
   todoCollection
     .updateMany({ status: "completed" }, { $set: { status: "deleted" } })
     .then((result) => {
@@ -54,7 +54,7 @@ recordRoutes.route("/todos/deleteCompleted").post(async function (req, res) {
     });
 });
 
-recordRoutes.route("/todos/update").post(async function (req, res) {
+recordRoutes.route("/todos/update").post(async (req, res) => {
   const { id, isChecked } = req.body;
   todoCollection
     .updateOne({ id }, { $set: { status: isChecked ? "completed" : "active" } })
@@ -67,7 +67,7 @@ recordRoutes.route("/todos/update").post(async function (req, res) {
     });
 });
 
-recordRoutes.route("/todos/updateAll").post(async function (req, res) {
+recordRoutes.route("/todos/updateAll").post(async (req, res) =>{
   const { isChecked } = req.body;
   todoCollection
     .updateMany(
