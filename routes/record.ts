@@ -1,16 +1,12 @@
 import express from "express";
+import todoCollection from "../db/conn";
 // recordRoutes is an instance of the express router.
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /todos.
 const recordRoutes = express.Router();
 
-// This will help us connect to the database
-import dbo from "../db/conn";
-
 recordRoutes.route("/todos").get(async (req, res) => {
-  const dbConnect = dbo.getDb();
-  dbConnect
-    .collection("todoTasks")
+  todoCollection
     .find({})
     .toArray(function (err, result) {
       if (err) {
@@ -23,9 +19,7 @@ recordRoutes.route("/todos").get(async (req, res) => {
 
 recordRoutes.post("/todos/create", async (req, res) => {
   const { todo } = req.body;
-  const dbConnect = dbo.getDb();
-  dbConnect
-    .collection("todoTasks")
+  todoCollection
     .insertOne(todo)
     .then((result) => {
       res.json(result);
@@ -36,10 +30,8 @@ recordRoutes.post("/todos/create", async (req, res) => {
 });
 
 recordRoutes.route("/todos/delete").post(async function (req, res) {
-  const dbConnect = dbo.getDb();
   const { id } = req.body;
-  dbConnect
-    .collection("todoTasks")
+  todoCollection
     .updateOne({ id }, { $set: { status: "deleted" } })
     .then((result) => {
       console.log("delete todo");
@@ -51,9 +43,7 @@ recordRoutes.route("/todos/delete").post(async function (req, res) {
 });
 
 recordRoutes.route("/todos/deleteCompleted").post(async function (req, res) {
-  const dbConnect = dbo.getDb();
-  dbConnect
-    .collection("todoTasks")
+  todoCollection
     .updateMany({ status: "completed" }, { $set: { status: "deleted" } })
     .then((result) => {
       console.log("delete all completed todos");
@@ -65,10 +55,8 @@ recordRoutes.route("/todos/deleteCompleted").post(async function (req, res) {
 });
 
 recordRoutes.route("/todos/update").post(async function (req, res) {
-  const dbConnect = dbo.getDb();
   const { id, isChecked } = req.body;
-  dbConnect
-    .collection("todoTasks")
+  todoCollection
     .updateOne({ id }, { $set: { status: isChecked ? "completed" : "active" } })
     .then((result) => {
       console.log("change the todo status");
@@ -80,10 +68,8 @@ recordRoutes.route("/todos/update").post(async function (req, res) {
 });
 
 recordRoutes.route("/todos/updateAll").post(async function (req, res) {
-  const dbConnect = dbo.getDb();
   const { isChecked } = req.body;
-  dbConnect
-    .collection("todoTasks")
+  todoCollection
     .updateMany(
       { status: { $nin: ["deleted"] } },
       { $set: { status: isChecked ? "completed" : "active" } }
