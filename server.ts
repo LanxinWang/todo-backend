@@ -1,8 +1,8 @@
-import express, {Request, Response} from "express"
-require("dotenv").config({ path: "./config.env" });
-const cors = require("cors");
+import express, {Request, Response} from "express";
+import cors from "cors";
 // get MongoDB driver connection
-const dbo = require("./db/conn");
+import dbo from "./db/conn";
+require("dotenv").config({ path: "./config.env" });
 
 const PORT = process.env.PORT || 5000;
 const app = express();
