@@ -6,9 +6,9 @@ import { Todo } from "../types";
 // The router will be added as a middleware and will take control of requests starting with path /todos.
 const recordRoutes = express.Router();
 
-recordRoutes.route("/todos").get(async (req, res) => {
+recordRoutes.get("/todos", async (req, res) => {
   todoCollection
-    .find({},{projection:{ _id: 0, index: 1, name: 1, status: 1}})
+    .find({},{projection:{ _id: 1, name: 1, status: 1}})
     .sort({index: -1})
     .toArray()
     .then((result) => {
@@ -19,24 +19,23 @@ recordRoutes.route("/todos").get(async (req, res) => {
     });
 });
 
-recordRoutes.post("/todos/create", async (req, res) => {
+recordRoutes.post("/todos", async (req, res) => {
   const { todo } = req.body;
   todoCollection
     .insertOne(todo)
-    .then((result) => {
-      res.json(result);
+    .then(() => {
+      res.json(todo);
     })
     .catch(() => {
       res.status(400).send("Error creating todo!");
     });
 });
 
-recordRoutes.route("/todos/delete").post(async (req, res) => {
-  const { index } = req.body;
+recordRoutes.delete("/todos/:id", async (req, res) => {
+  const { id:_id } = req.params;
   todoCollection
-    .updateOne({ index }, { $set: { status: "deleted" } })
+    .updateOne({ _id }, { $set: { status: "deleted" } })
     .then((result) => {
-      console.log("delete todo");
       res.json(result);
     })
     .catch(() => {
@@ -44,7 +43,7 @@ recordRoutes.route("/todos/delete").post(async (req, res) => {
     });
 });
 
-recordRoutes.route("/todos/deleteCompleted").post(async (req, res) => {
+recordRoutes.delete("/todos/", async (req, res) => {
   todoCollection
     .updateMany({ status: "completed" }, { $set: { status: "deleted" } })
     .then((result) => {
@@ -56,10 +55,12 @@ recordRoutes.route("/todos/deleteCompleted").post(async (req, res) => {
     });
 });
 
-recordRoutes.route("/todos/update").post(async (req, res) => {
-  const { index, isChecked } = req.body;
+recordRoutes.put("/todos/:id", async (req, res) => {
+  const { id:_id } = req.params ;  
+  const { isChecked } = req.body;
+  
   todoCollection
-    .updateOne({ index }, { $set: { status: isChecked ? "completed" : "active" } })
+    .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
     .then((result) => {
       console.log("change the todo status");
       res.json(result);
@@ -69,7 +70,7 @@ recordRoutes.route("/todos/update").post(async (req, res) => {
     });
 });
 
-recordRoutes.route("/todos/updateAll").post(async (req, res) =>{
+recordRoutes.put("/todos", async (req, res) => {  
   const { isChecked } = req.body;
   todoCollection
     .updateMany(
@@ -77,7 +78,6 @@ recordRoutes.route("/todos/updateAll").post(async (req, res) =>{
       { $set: { status: isChecked ? "completed" : "active" } }
     )
     .then((result) => {
-      console.log("change the todos status");
       res.json(result);
     })
     .catch(() => {
