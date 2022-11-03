@@ -18,7 +18,7 @@ recordRoutes.get("/todos", async (req, res) => {
 });
 
 recordRoutes.post("/todos", async (req, res) => {
-  const { todo } = req.body;
+  const todo:Todo = req.body.todo ;
   todoCollection
     .insertOne(todo)
     .then(() => {
