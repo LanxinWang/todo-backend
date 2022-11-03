@@ -1,15 +1,13 @@
 import express from "express";
 import todoCollection from "../db/conn";
 import { Todo } from "../types";
-// recordRoutes is an instance of the express router.
-// We use it to define our routes.
-// The router will be added as a middleware and will take control of requests starting with path /todos.
+
 const recordRoutes = express.Router();
 
 recordRoutes.get("/todos", async (req, res) => {
   todoCollection
     .find({},{projection:{ _id: 1, name: 1, status: 1}})
-    .sort({index: -1})
+    .sort({_id: -1})
     .toArray()
     .then((result) => {
       res.json(result);
@@ -32,9 +30,9 @@ recordRoutes.post("/todos", async (req, res) => {
 });
 
 recordRoutes.delete("/todos/:id", async (req, res) => {
-  const { id:_id } = req.params;
+  const _id = Number(req.params.id);
   todoCollection
-    .updateOne({ _id }, { $set: { status: "deleted" } })
+    .updateOne({ _id  }, { $set: { status: "deleted" } })
     .then((result) => {
       res.json(result);
     })
@@ -56,9 +54,8 @@ recordRoutes.delete("/todos/", async (req, res) => {
 });
 
 recordRoutes.put("/todos/:id", async (req, res) => {
-  const { id:_id } = req.params ;  
+  const _id = Number(req.params.id);
   const { isChecked } = req.body;
-  
   todoCollection
     .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
     .then((result) => {
