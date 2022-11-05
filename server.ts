@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(require("./routes/record"));
 
 // Global error handling
-app.use(function (err: Error, _req: Request, res: Response) {
+app.use((err: Error, _req: Request, res: Response) => {
   console.error(err.stack);
   res.status(500).send("Something broke!");
 });
