@@ -37,7 +37,7 @@ export const updateTodoById = async (req: Request, res: Response) => {
         res.status(400).send("Error update todo status!");
         });
     }
-export const updateAllTodos =async (req: Request, res: Response) => {  
+export const updateAllTodos = async (req: Request, res: Response) => {  
     const { isChecked } = req.body;
     todoCollection
         .updateMany(
