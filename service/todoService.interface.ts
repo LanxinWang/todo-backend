@@ -5,7 +5,7 @@ export interface todoServiceInterface {
     getAllTodos(): Promise<WithId<Todo>[]>;
     createTodo(todo: Todo): Promise<InsertOneResult<Todo>>;
     updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult>;
-    // updateAllTodos(req: Request, res: Response):void;
-    // deleteTodoById(req: Request, res: Response):void;
+    // updateAllTodos(isChecked: boolean): Promise<UpdateResult | Document>;
+    deleteTodoById(_id: number): Promise<UpdateResult>;
     // deleteAllCompletedTodos(req: Request, res: Response):void;
 }

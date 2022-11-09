@@ -4,7 +4,6 @@ import { Todo } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
-    static updateTodoById: any;
     getAllTodos(): Promise<WithId<Todo>[]> {
         return todoCollection
         .find({})
@@ -19,6 +18,11 @@ export class TodoService implements todoServiceInterface {
     updateTodoById(_id: number, isChecked: boolean):Promise<UpdateResult> {
         return todoCollection
             .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
+    }
+
+    deleteTodoById(_id: number): Promise<UpdateResult> {
+        return  todoCollection
+        .updateOne({ _id  }, { $set: { status: "deleted" } })
     }
     
 }
