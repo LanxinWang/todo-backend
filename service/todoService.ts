@@ -4,41 +4,43 @@ import { Todo } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
-    getAllTodos(): Promise<WithId<Todo>[]> {
-        return todoCollection
+    async getAllTodos(): Promise<WithId<Todo>[]> {
+        return await todoCollection
         .find({})
         .sort({_id: -1})
         .toArray();
     }
 
-    createTodo(todo: Todo): Promise<InsertOneResult<Todo>> {
-        return todoCollection.insertOne(todo);
+    async createTodo(todo: Todo): Promise<InsertOneResult<Todo>> {
+        return await todoCollection.insertOne(todo);
     }
 
-    updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult> {
-        return todoCollection
+    async updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult> {
+        return await todoCollection
             .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
     }
 
-    updateAllTodos(isChecked: boolean): Promise<any> {
-        return todoCollection
+    async updateAllTodos(isChecked: boolean): Promise<string> {
+        await todoCollection
             .updateMany(
                 { status: { $nin: ["deleted"] } },
                 { $set: { status: isChecked ? "completed" : "active" } }
-            );
+            )
+        return "update all todos' status";
     }
 
-    deleteTodoById(_id: number): Promise<UpdateResult> {
-        return todoCollection
+    async deleteTodoById(_id: number): Promise<UpdateResult> {
+        return await todoCollection
         .updateOne({ _id  }, { $set: { status: "deleted" } })
     }
 
-    deleteAllCompletedTodos(): Promise<any> {
-        return todoCollection
+    async deleteAllCompletedTodos(): Promise<string> {
+        await todoCollection
         .updateMany(
             { status: "completed" }, 
             { $set: { status: "deleted" }}
         )
+        return "delete all completed todos";
     }
     
 }
