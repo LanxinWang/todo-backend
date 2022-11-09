@@ -1,18 +1,19 @@
 import express from "express";
-import { getAllTodos, createTodo, updateTodoById, updateAllTodos, deleteTodoById, deleteAllCompletedTodos } from "../controller/todoController";
+import { TodoController } from "../controller/todoController";
 
 const todoRoutes = express.Router();
+const todoController = new TodoController();
 
-todoRoutes.get("/todos", getAllTodos);
+todoRoutes.get("/todos", todoController.getAllTodos);
 
-todoRoutes.post("/todos", createTodo);
+todoRoutes.post("/todos", todoController.createTodo);
 
-todoRoutes.delete("/todos/:id", deleteTodoById);
+todoRoutes.delete("/todos/:id", todoController.deleteTodoById);
 
-todoRoutes.delete("/todos/",deleteAllCompletedTodos);
+todoRoutes.delete("/todos/",todoController.deleteAllCompletedTodos);
 
-todoRoutes.put("/todos/:id", updateTodoById);
+todoRoutes.put("/todos/:id", todoController.updateTodoById);
 
-todoRoutes.put("/todos", updateAllTodos);
+todoRoutes.put("/todos", todoController.updateAllTodos);
 
 module.exports = todoRoutes;
