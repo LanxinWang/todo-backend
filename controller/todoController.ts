@@ -2,14 +2,20 @@ import todoCollection from "../db/conn"
 import { Request, Response } from "express";
 import { Todo } from "../types";
 import {todoControllerInterface} from "./todoController.interface"
+import { TodoService } from "../service/todoService";
 export class TodoController implements todoControllerInterface {
-    public async getAllTodos(req: Request, res: Response) {
+    
+    _todoService: TodoService = new TodoService();
+
+    constructor(todoService: TodoService) {
+        this._todoService = todoService;
+        this.getAllTodos = this.getAllTodos.bind(this);
+    }
+
+    getAllTodos(req: Request, res: Response) {
         //connect db
         //todoService.getAllTodos: Todo[]
-        todoCollection
-        .find({})
-        .sort({_id: -1})
-        .toArray()
+        this._todoService.getAllTodos()
         .then((result) => {
         res.json(result);
         })

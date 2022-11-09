@@ -1,8 +1,9 @@
 import express from "express";
 import { TodoController } from "../controller/todoController";
+import { TodoService } from "../service/todoService";
 
 const todoRoutes = express.Router();
-const todoController = new TodoController();
+const todoController = new TodoController(new TodoService());
 
 todoRoutes.get("/todos", todoController.getAllTodos);
 
