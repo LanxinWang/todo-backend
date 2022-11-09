@@ -10,12 +10,14 @@ export class TodoController implements todoControllerInterface {
     constructor(todoService: TodoService) {
         this._todoService = todoService;
         this.getAllTodos = this.getAllTodos.bind(this);
+        this.createTodo = this.createTodo.bind(this);
     }
 
     getAllTodos(req: Request, res: Response) {
         //connect db
         //todoService.getAllTodos: Todo[]
-        this._todoService.getAllTodos()
+        this._todoService
+        .getAllTodos()
         .then((result) => {
         res.json(result);
         })
@@ -23,10 +25,11 @@ export class TodoController implements todoControllerInterface {
         res.status(400).send("Error fetching todos!");
         });
     }
-    public async createTodo(req: Request, res: Response) {
+
+    createTodo(req: Request, res: Response) {
         const todo: Todo = req.body.todo ;
-        todoCollection
-        .insertOne(todo)
+        this._todoService
+        .createTodo(todo)
         .then(() => {
         res.json(todo);
         })
@@ -34,6 +37,7 @@ export class TodoController implements todoControllerInterface {
         res.status(400).send("Error creating todo!");
         });
     }
+    
     public async updateTodoById(req: Request, res: Response) {
         const _id = Number(req.params.id);
         const { isChecked } = req.body;

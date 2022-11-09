@@ -1,9 +1,9 @@
-import { WithId } from "mongodb";
+import { InsertOneResult, WithId } from "mongodb";
 import { Todo } from "../types";
 
 export interface todoServiceInterface {
     getAllTodos(): Promise<WithId<Todo>[]>;
-    // createTodo(req: Request, res: Response):void;
+    createTodo(todo: Todo): Promise<InsertOneResult<Todo>>;
     // updateTodoById(req: Request, res: Response):void;
     // updateAllTodos(req: Request, res: Response):void;
     // deleteTodoById(req: Request, res: Response):void;
