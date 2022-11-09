@@ -8,7 +8,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use(require("./routes/record"));
+app.use(require("./routes/todoRoutes"));
 
 // Global error handling
 app.use((err: Error, _req: Request, res: Response) => {
