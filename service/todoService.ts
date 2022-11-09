@@ -15,9 +15,17 @@ export class TodoService implements todoServiceInterface {
         return todoCollection.insertOne(todo);
     }
 
-    updateTodoById(_id: number, isChecked: boolean):Promise<UpdateResult> {
+    updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult> {
         return todoCollection
             .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
+    }
+
+    updateAllTodos(isChecked: boolean): Promise<any> {
+        return todoCollection
+            .updateMany(
+                { status: { $nin: ["deleted"] } },
+                { $set: { status: isChecked ? "completed" : "active" } }
+            );
     }
 
     deleteTodoById(_id: number): Promise<UpdateResult> {

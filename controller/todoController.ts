@@ -54,13 +54,9 @@ export class TodoController implements todoControllerInterface {
             });
     }
     
-    public async updateAllTodos(req: Request, res: Response) {
+    updateAllTodos(req: Request, res: Response) {
         const { isChecked } = req.body;
-        todoCollection
-        .updateMany(
-        { status: { $nin: ["deleted"] } },
-        { $set: { status: isChecked ? "completed" : "active" } }
-        )
+        this._todoService.updateAllTodos(isChecked)
         .then((result) => {
         res.json(result);
         })
