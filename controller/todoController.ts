@@ -11,6 +11,7 @@ export class TodoController implements todoControllerInterface {
         this._todoService = todoService;
         this.getAllTodos = this.getAllTodos.bind(this);
         this.createTodo = this.createTodo.bind(this);
+        this.updateTodoById = this.updateTodoById.bind(this);
     }
 
     getAllTodos(req: Request, res: Response) {
@@ -37,19 +38,19 @@ export class TodoController implements todoControllerInterface {
         res.status(400).send("Error creating todo!");
         });
     }
-    
-    public async updateTodoById(req: Request, res: Response) {
+
+    updateTodoById(req: Request, res: Response) {
         const _id = Number(req.params.id);
         const { isChecked } = req.body;
-        todoCollection
-            .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
-            .then(async (result) => {
+        this._todoService.updateTodoById(_id, isChecked)
+            .then((result) => {
             res.json(result);
             })
             .catch(() => {
             res.status(400).send("Error update todo status!");
             });
     }
+    
     public async updateAllTodos(req: Request, res: Response) {
         const { isChecked } = req.body;
         todoCollection
