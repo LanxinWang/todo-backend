@@ -21,8 +21,16 @@ export class TodoService implements todoServiceInterface {
     }
 
     deleteTodoById(_id: number): Promise<UpdateResult> {
-        return  todoCollection
+        return todoCollection
         .updateOne({ _id  }, { $set: { status: "deleted" } })
+    }
+
+    deleteAllCompletedTodos(): Promise<any> {
+        return todoCollection
+        .updateMany(
+            { status: "completed" }, 
+            { $set: { status: "deleted" }}
+        )
     }
     
 }

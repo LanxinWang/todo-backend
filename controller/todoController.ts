@@ -14,6 +14,7 @@ export class TodoController implements todoControllerInterface {
         this.updateTodoById = this.updateTodoById.bind(this);
         this.updateAllTodos = this.updateAllTodos.bind(this);
         this.deleteTodoById = this.deleteTodoById.bind(this);
+        this.deleteAllCompletedTodos = this.deleteAllCompletedTodos.bind(this);
     }
 
     getAllTodos(req: Request, res: Response) {
@@ -78,16 +79,15 @@ export class TodoController implements todoControllerInterface {
             res.status(400).send("Error delete todo!");
             });
     }
-    
-    public async deleteAllCompletedTodos(req: Request, res: Response) {
-        todoCollection
-        .updateMany({ status: "completed" }, { $set: { status: "deleted" } })
-        .then((result) => {
-        res.json(result);
-        })
-        .catch(() => {
-        res.status(400).send("Error delete all completed todos!");
-        });
+
+    deleteAllCompletedTodos(req: Request, res: Response) {
+        this._todoService.deleteAllCompletedTodos()
+            .then((result) => {
+            res.json(result);
+            })
+            .catch(() => {
+            res.status(400).send("Error delete all completed todos!");
+            });
     }
 
 }

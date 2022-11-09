@@ -7,5 +7,5 @@ export interface todoServiceInterface {
     updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult>;
     // updateAllTodos(isChecked: boolean): Promise<UpdateResult | Document>;
     deleteTodoById(_id: number): Promise<UpdateResult>;
-    // deleteAllCompletedTodos(req: Request, res: Response):void;
+    deleteAllCompletedTodos(): Promise<any>;
 }
