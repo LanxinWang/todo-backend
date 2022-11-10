@@ -1,6 +1,6 @@
 import todoCollection from "../db/conn"
 import { Request, Response } from "express";
-import { Todo } from "../types";
+import { ITodo } from "../types";
 import {todoControllerInterface} from "./todoController.interface"
 import { TodoService } from "../service/todoService";
 export class TodoController implements todoControllerInterface {
@@ -21,7 +21,7 @@ export class TodoController implements todoControllerInterface {
     }
 
     public createTodo = (req: Request, res: Response) => {
-        const todo: Todo = req.body.todo ;
+        const todo: ITodo = req.body.todo ;
         this._todoService
         .createTodo(todo)
         .then(() => {

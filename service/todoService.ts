@@ -1,17 +1,17 @@
 import { InsertOneResult, UpdateResult, WithId } from "mongodb";
 import todoCollection from "../db/conn";
-import { Todo } from "../types";
+import {  ITodo } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
-    async getAllTodos(): Promise<WithId<Todo>[]> {
+    async getAllTodos(): Promise<WithId<ITodo>[]> {
         return await todoCollection
         .find({})
         .sort({_id: -1})
         .toArray();
     }
 
-    async createTodo(todo: Todo): Promise<InsertOneResult<Todo>> {
+    async createTodo(todo: ITodo): Promise<InsertOneResult<ITodo>> {
         return await todoCollection.insertOne(todo);
     }
 
