@@ -1,3 +1,4 @@
+import { UpdateResult } from "mongodb";
 import { Todo } from "../model/todoModel";
 import { ITodo } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
@@ -22,14 +23,13 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    // async updateAllTodos(isChecked: boolean): Promise<string> {
-    //     await todoCollection
-    //         .updateMany(
-    //             { status: { $nin: ["deleted"] } },
-    //             { $set: { status: isChecked ? "completed" : "active" } }
-    //         )
-    //     return "update all todos' status";
-    // }
+    async updateAllTodos(isChecked: boolean): Promise<string> {
+        const result = await Todo.updateMany(
+                { status: { $nin: ["deleted"] } },
+                { $set: { status: isChecked ? "completed" : "active" } }
+            )            
+        return `${result.modifiedCount} todos updated status`;
+    }
 
     // async deleteTodoById(_id: number): Promise<UpdateResult> {
     //     return await todoCollection

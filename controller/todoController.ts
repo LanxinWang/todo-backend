@@ -44,16 +44,16 @@ export class TodoController implements todoControllerInterface {
             });
     }
     
-    // public updateAllTodos = (req: Request, res: Response) => {
-    //     const { isChecked } = req.body;
-    //     this._todoService.updateAllTodos(isChecked)
-    //     .then((result) => {
-    //     res.json(result);
-    //     })
-    //     .catch(() => {
-    //     res.status(400).send("Error update todos status!");
-    //     });
-    // }
+    public updateAllTodos = (req: Request, res: Response) => {
+        const { isChecked } = req.body;
+        this._todoService.updateAllTodos(isChecked)
+        .then((result) => {
+        res.json(result);
+        })
+        .catch(() => {
+        res.status(400).send("Error update todos status!");
+        });
+    }
 
     // public deleteTodoById = (req: Request, res: Response) => {
     //     const _id = Number(req.params.id);

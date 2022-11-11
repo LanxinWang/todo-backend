@@ -14,6 +14,6 @@ todoRoutes.post("/todos", todoController.createATodo);
 
 todoRoutes.put("/todos/:id", todoController.updateATodoById);
 
-// todoRoutes.put("/todos", todoController.updateAllTodos);
+todoRoutes.put("/todos", todoController.updateAllTodos);
 
 module.exports = todoRoutes;
