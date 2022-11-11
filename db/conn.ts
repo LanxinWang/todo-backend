@@ -17,8 +17,8 @@ const mongoose = require('mongoose');
 /*第一参数是数据库连接*/
 /*第二个参数根据官方配置，不然那个数据库弹出警告*/
 /*第三个参数 回调函数*/
-mongoose.connect(ATLAS_URI,{useNewUrlParser: true},(err:Error)=>{
-  if(err) throw new Error(err.message),
-  console.log('数据库连接成功')
+mongoose.connect(ATLAS_URI,{useNewUrlParser: true},(err: Error)=>{
+  if(err) throw new Error("连接失败：");
+  else {console.log('数据库连接成功');}
 })
 module.exports = mongoose;

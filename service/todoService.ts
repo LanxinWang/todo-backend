@@ -8,9 +8,11 @@ export class TodoService implements todoServiceInterface {
         return todos;
     }
 
-    // async createTodo(todo: ITodo): Promise<InsertOneResult<ITodo>> {
-    //     return await todoCollection.insertOne(todo);
-    // }
+    async createATodo(aTodo: ITodo): Promise<ITodo> {
+        const todo: ITodo = await Todo.create(aTodo);
+        console.log(todo);
+        return todo;
+    }
 
     // async updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult> {
     //     return await todoCollection

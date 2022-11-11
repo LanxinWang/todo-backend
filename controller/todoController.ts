@@ -20,17 +20,17 @@ export class TodoController implements todoControllerInterface {
         });
     }
 
-    // public createTodo = (req: Request, res: Response) => {
-    //     const todo: ITodo = req.body.todo ;
-    //     this._todoService
-    //     .createTodo(todo)
-    //     .then(() => {
-    //     res.json(todo);
-    //     })
-    //     .catch(() => {
-    //     res.status(400).send("Error creating todo!");
-    //     });
-    // }
+    public createATodo = (req: Request, res: Response) => {
+        const newTodo: ITodo = req.body.todo ;
+        this._todoService
+        .createATodo(newTodo)
+        .then((result) => {
+        res.json(result);
+        })
+        .catch(() => {
+        res.status(400).send("Error creating todo!");
+        });
+    }
 
     // public updateTodoById = (req: Request, res: Response) => {
     //     const _id = Number(req.params.id);

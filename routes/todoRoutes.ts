@@ -6,14 +6,14 @@ const todoController = new TodoController();
 
 todoRoutes.get("/todos", todoController.getAllTodos);
 
-todoRoutes.post("/todos", todoController.createTodo);
+todoRoutes.post("/todos", todoController.createATodo);
 
-todoRoutes.delete("/todos/:id", todoController.deleteTodoById);
+// todoRoutes.delete("/todos/:id", todoController.deleteTodoById);
 
-todoRoutes.delete("/todos/",todoController.deleteAllCompletedTodos);
+// todoRoutes.delete("/todos/",todoController.deleteAllCompletedTodos);
 
-todoRoutes.put("/todos/:id", todoController.updateTodoById);
+// todoRoutes.put("/todos/:id", todoController.updateTodoById);
 
-todoRoutes.put("/todos", todoController.updateAllTodos);
+// todoRoutes.put("/todos", todoController.updateAllTodos);
 
 module.exports = todoRoutes;
