@@ -1,7 +1,7 @@
 import express from "express";
 import { TodoController } from "../controller/todoController";
 
-const todoRoutes = express.Router();
+export const todoRoutes = express.Router();
 const todoController = new TodoController();
 
 todoRoutes.get("/todos", todoController.getAllTodos);
@@ -15,5 +15,3 @@ todoRoutes.delete("/todos/",todoController.deleteAllCompletedTodos);
 todoRoutes.put("/todos/:id", todoController.updateATodoById);
 
 todoRoutes.put("/todos", todoController.updateAllTodos);
-
-module.exports = todoRoutes;
