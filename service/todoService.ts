@@ -10,7 +10,6 @@ export class TodoService implements todoServiceInterface {
 
     async createATodo(aTodo: ITodo): Promise<ITodo> {
         const todo: ITodo = await Todo.create(aTodo);
-        console.log(todo);
         return todo;
     }
 

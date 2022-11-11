@@ -1,4 +1,4 @@
-const mongoose = require("../db/conn");
+import * as mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 export const todoSchema = new Schema ({
