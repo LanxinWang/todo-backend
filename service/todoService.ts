@@ -1,10 +1,10 @@
 import { Todo } from "../model/todoModel";
-import { ITodo } from "../types";
+import { ITodo, TODO_STATUS } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
     async getAllTodos(): Promise<ITodo[] | null> {
-        const todos: ITodo[]|[] = await Todo.find({}).sort({_id:-1});
+        const todos: ITodo[] | [] = await Todo.find({}).sort({ _id: -1 });
         return todos;
     }
 
@@ -15,7 +15,8 @@ export class TodoService implements todoServiceInterface {
 
     async updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null > {
         await Todo.findByIdAndUpdate(
-            _id, { $set: { status: isChecked ? "completed" : "active" } }
+            _id, 
+            { $set: { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE } }
             );
         const todo: ITodo| null = await Todo.findById(_id);
         return todo;
@@ -23,22 +24,25 @@ export class TodoService implements todoServiceInterface {
 
     async updateAllTodos(isChecked: boolean): Promise<string> {
         const result = await Todo.updateMany(
-                { status: { $nin: ["deleted"] } },
-                { $set: { status: isChecked ? "completed" : "active" } }
+                { status: { $nin: [TODO_STATUS.DELETED] } },
+                { $set: 
+                    { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
+                }
             )            
         return `${result.modifiedCount} todos updated status`;
     }
 
     async deleteATodoById(_id: number): Promise<ITodo | null> {
-        await Todo.findByIdAndUpdate({ _id  }, { $set: { status: "deleted" } });
+        await Todo.findByIdAndUpdate({ _id  }, 
+            { $set: { status: TODO_STATUS.DELETED } });
         const todo: ITodo| null = await Todo.findById(_id);
         return todo;
     }
 
     async deleteAllCompletedTodos(): Promise<string> {
         const result = await Todo.updateMany(
-            { status: "completed" }, 
-            { $set: { status: "deleted" }}
+            { status: TODO_STATUS.COMPLETED }, 
+            { $set: { status: TODO_STATUS.DELETED }}
         )
         return `${result.modifiedCount} todos deleted.`;
     }

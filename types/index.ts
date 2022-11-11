@@ -4,3 +4,9 @@ export interface ITodo extends Document {
     status: string,
     name: string,
   }
+
+export const TODO_STATUS = {
+  ACTIVE: "active",
+  COMPLETED: "completed",
+  DELETED: "deleted"
+}

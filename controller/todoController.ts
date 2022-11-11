@@ -7,8 +7,6 @@ export class TodoController implements todoControllerInterface {
     private _todoService: TodoService = new TodoService();
 
     public getAllTodos =  (req: Request, res: Response) => {
-        //connect db
-        //todoService.getAllTodos: Todo[]
         this._todoService
         .getAllTodos()
         .then((result) => {
