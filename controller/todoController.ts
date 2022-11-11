@@ -32,17 +32,17 @@ export class TodoController implements todoControllerInterface {
         });
     }
 
-    // public updateTodoById = (req: Request, res: Response) => {
-    //     const _id = Number(req.params.id);
-    //     const { isChecked } = req.body;
-    //     this._todoService.updateTodoById(_id, isChecked)
-    //         .then((result) => {
-    //         res.json(result);
-    //         })
-    //         .catch(() => {
-    //         res.status(400).send("Error update todo status!");
-    //         });
-    // }
+    public updateATodoById = (req: Request, res: Response) => {
+        const _id = Number(req.params.id);
+        const { isChecked } = req.body;
+        this._todoService.updateATodoById(_id, isChecked)
+            .then((result) => {
+            res.json(result);
+            })
+            .catch(() => {
+            res.status(400).send("Error update todo status!");
+            });
+    }
     
     // public updateAllTodos = (req: Request, res: Response) => {
     //     const { isChecked } = req.body;

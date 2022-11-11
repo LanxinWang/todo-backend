@@ -4,7 +4,7 @@ import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
     async getAllTodos(): Promise<ITodo[] | null> {
-        const todos: ITodo[] = await Todo.find({}).sort({_id:-1});
+        const todos: ITodo[]|[] = await Todo.find({}).sort({_id:-1});
         return todos;
     }
 
@@ -14,10 +14,13 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    // async updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult> {
-    //     return await todoCollection
-    //         .updateOne({ _id }, { $set: { status: isChecked ? "completed" : "active" } })
-    // }
+    async updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null > {
+        await Todo.findByIdAndUpdate(
+            _id, { $set: { status: isChecked ? "completed" : "active" } }
+            );
+        const todo: ITodo| null = await Todo.findById(_id);
+        return todo;
+    }
 
     // async updateAllTodos(isChecked: boolean): Promise<string> {
     //     await todoCollection

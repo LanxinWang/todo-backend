@@ -12,7 +12,7 @@ todoRoutes.post("/todos", todoController.createATodo);
 
 // todoRoutes.delete("/todos/",todoController.deleteAllCompletedTodos);
 
-// todoRoutes.put("/todos/:id", todoController.updateTodoById);
+todoRoutes.put("/todos/:id", todoController.updateATodoById);
 
 // todoRoutes.put("/todos", todoController.updateAllTodos);
 

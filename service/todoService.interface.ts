@@ -4,7 +4,7 @@ import { ITodo } from "../types";
 export interface todoServiceInterface {
     getAllTodos(): Promise<ITodo[] | null>;
     createATodo(todo: ITodo): Promise<ITodo>;
-    // updateTodoById(_id: number, isChecked: boolean): Promise<UpdateResult>;
+    updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null>;
     // updateAllTodos(isChecked: boolean): Promise<string>;
     // deleteTodoById(_id: number): Promise<UpdateResult>;
     // deleteAllCompletedTodos(): Promise<string>;
