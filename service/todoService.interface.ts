@@ -1,4 +1,3 @@
-import { InsertOneResult, UpdateResult, WithId } from "mongodb";
 import { ITodo } from "../types";
 
 export interface todoServiceInterface {

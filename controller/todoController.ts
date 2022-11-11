@@ -1,4 +1,3 @@
-// import todoCollection from "../db/conn"
 import { Request, Response } from "express";
 import { ITodo } from "../types";
 import {todoControllerInterface} from "./todoController.interface"

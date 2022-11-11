@@ -1,4 +1,3 @@
-import { UpdateResult } from "mongodb";
 import { Todo } from "../model/todoModel";
 import { ITodo } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
