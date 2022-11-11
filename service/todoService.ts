@@ -37,13 +37,12 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    // async deleteAllCompletedTodos(): Promise<string> {
-    //     await todoCollection
-    //     .updateMany(
-    //         { status: "completed" }, 
-    //         { $set: { status: "deleted" }}
-    //     )
-    //     return "delete all completed todos";
-    // }
+    async deleteAllCompletedTodos(): Promise<string> {
+        const result = await Todo.updateMany(
+            { status: "completed" }, 
+            { $set: { status: "deleted" }}
+        )
+        return `${result.modifiedCount} todos deleted.`;
+    }
     
 }

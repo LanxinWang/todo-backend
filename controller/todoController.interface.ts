@@ -7,5 +7,5 @@ export interface todoControllerInterface {
     updateATodoById(req: Request, res: Response): void;
     updateAllTodos(req: Request, res: Response): void;
     deleteATodoById(req: Request, res: Response): void;
-    // deleteAllCompletedTodos(req: Request, res: Response): void;
+    deleteAllCompletedTodos(req: Request, res: Response): void;
 }

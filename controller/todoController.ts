@@ -66,14 +66,14 @@ export class TodoController implements todoControllerInterface {
             });
     }
 
-    // public deleteAllCompletedTodos = (req: Request, res: Response) => {
-    //     this._todoService.deleteAllCompletedTodos()
-    //         .then((result) => {
-    //         res.json(result);
-    //         })
-    //         .catch(() => {
-    //         res.status(400).send("Error delete all completed todos!");
-    //         });
-    // }
+    public deleteAllCompletedTodos = (req: Request, res: Response) => {
+        this._todoService.deleteAllCompletedTodos()
+            .then((result) => {
+            res.json(result);
+            })
+            .catch(() => {
+            res.status(400).send("Error delete all completed todos!");
+            });
+    }
 
 }
