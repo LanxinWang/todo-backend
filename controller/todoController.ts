@@ -55,16 +55,16 @@ export class TodoController implements todoControllerInterface {
         });
     }
 
-    // public deleteTodoById = (req: Request, res: Response) => {
-    //     const _id = Number(req.params.id);
-    //     this._todoService.deleteTodoById(_id)
-    //         .then((result) => {
-    //         res.json(result);
-    //         })
-    //         .catch(() => {
-    //         res.status(400).send("Error delete todo!");
-    //         });
-    // }
+    public deleteATodoById = (req: Request, res: Response) => {
+        const _id = Number(req.params.id);
+        this._todoService.deleteATodoById(_id)
+            .then((result) => {
+            res.json(result);
+            })
+            .catch(() => {
+            res.status(400).send("Error delete todo!");
+            });
+    }
 
     // public deleteAllCompletedTodos = (req: Request, res: Response) => {
     //     this._todoService.deleteAllCompletedTodos()

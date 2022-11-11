@@ -31,10 +31,11 @@ export class TodoService implements todoServiceInterface {
         return `${result.modifiedCount} todos updated status`;
     }
 
-    // async deleteTodoById(_id: number): Promise<UpdateResult> {
-    //     return await todoCollection
-    //     .updateOne({ _id  }, { $set: { status: "deleted" } })
-    // }
+    async deleteATodoById(_id: number): Promise<ITodo | null> {
+        await Todo.findByIdAndUpdate({ _id  }, { $set: { status: "deleted" } });
+        const todo: ITodo| null = await Todo.findById(_id);
+        return todo;
+    }
 
     // async deleteAllCompletedTodos(): Promise<string> {
     //     await todoCollection

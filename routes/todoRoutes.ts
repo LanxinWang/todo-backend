@@ -8,7 +8,7 @@ todoRoutes.get("/todos", todoController.getAllTodos);
 
 todoRoutes.post("/todos", todoController.createATodo);
 
-// todoRoutes.delete("/todos/:id", todoController.deleteTodoById);
+todoRoutes.delete("/todos/:id", todoController.deleteATodoById);
 
 // todoRoutes.delete("/todos/",todoController.deleteAllCompletedTodos);
 
