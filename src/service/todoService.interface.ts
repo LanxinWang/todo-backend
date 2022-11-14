@@ -5,7 +5,7 @@ export interface todoServiceInterface {
     createATodo(todo: ITodo): Promise<ITodo>;
     updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null>;
     // updateAllTodos(isChecked: boolean): Promise<ITodo[]>;
-    updateAllTodos(isChecked: boolean, updateIds: Array<Number>): Promise<((ITodo) | null)[]>;
+    updateAllTodos(isChecked: boolean, updateIds: Number[]): Promise<((ITodo) | null)[]>;
     deleteATodoById(_id: number): Promise<ITodo | null>;
-    deleteAllCompletedTodos(): Promise<string>;
+    deleteAllCompletedTodos(deletedIds: Number[]): Promise<((ITodo) | null)[]>;
 }

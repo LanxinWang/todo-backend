@@ -64,7 +64,8 @@ export class TodoController implements todoControllerInterface {
     }
 
     public deleteAllCompletedTodos = (req: Request, res: Response) => {
-        this._todoService.deleteAllCompletedTodos()
+        const deletedIds: Number[] = req.body.deletedIds;
+        this._todoService.deleteAllCompletedTodos(deletedIds)
             .then((result) => {
             res.json(result);
             })

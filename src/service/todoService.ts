@@ -22,9 +22,9 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    async updateAllTodos(isChecked: boolean, updateIds: Array<Number> ): Promise<((ITodo) | null)[]> {
-        const promises = updateIds.map((updateId) => {
-            return Todo.findByIdAndUpdate(updateId,
+    async updateAllTodos(isChecked: boolean, updateIds: Number[] ): Promise<((ITodo) | null)[]> {
+        const promises = updateIds.map(async (updateId) => {
+            return await Todo.findByIdAndUpdate(updateId,
                 { $set: 
                     { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
                 })
@@ -40,12 +40,14 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    async deleteAllCompletedTodos(): Promise<string> {
-        const result = await Todo.updateMany(
-            { status: TODO_STATUS.COMPLETED }, 
-            { $set: { status: TODO_STATUS.DELETED }}
-        )
-        return `${result.modifiedCount} todos deleted.`;
+    async deleteAllCompletedTodos(deletedIds: Number[]): Promise<((ITodo) | null)[]> {
+        const promises = deletedIds.map( async (deletedIds) => {
+            return await Todo.findByIdAndUpdate(deletedIds,
+                { $set: 
+                    { status: TODO_STATUS.DELETED }
+                })
+        });
+        const todos = await Promise.all(promises);
+        return todos;
     }
-    
 }
