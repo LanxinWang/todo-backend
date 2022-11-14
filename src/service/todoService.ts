@@ -42,14 +42,21 @@ export class TodoService implements todoServiceInterface {
     }
 
     async deleteAllCompletedTodos(deletedIds: Number[]): Promise<ITodo[]> {
-        await Todo.updateMany({
-            _id: {$in: deletedIds}
-        },
-        {
-            $set: 
-                { status: TODO_STATUS.DELETED }
-        })
-        const todos = await Todo.find({_id: {$in: deletedIds}})
-        return todos ;
+        let todos: ITodo[] = [];
+        try {
+            const {acknowledged} = await Todo.updateMany({
+                _id: {$in: deletedIds}
+            },
+            {
+                $set: 
+                    { status: TODO_STATUS.DELETED }
+            });
+            if (acknowledged) {
+                 todos = await Todo.find({_id: {$in: deletedIds}});
+            }
+        } catch (error) {
+            throw new Error("error:deleteAllCompletedTodos");
+        }
+        return todos;
     }
 }
