@@ -10,7 +10,7 @@ todoRoutes.post("/todos", todoController.createATodo);
 
 todoRoutes.delete("/todos/:id", todoController.deleteATodoById);
 
-todoRoutes.put("/todos/:deletedIds",todoController.deleteAllCompletedTodos);
+todoRoutes.delete("/todos", todoController.deleteAllCompletedTodos);
 
 todoRoutes.put("/todos/:id", todoController.updateATodoById);
 

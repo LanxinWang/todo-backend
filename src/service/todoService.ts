@@ -22,14 +22,15 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    async updateAllTodos(isChecked: boolean, updateIds: Number[] ): Promise<((ITodo) | null)[]> {
-        const promises = updateIds.map(async (updateId) => {
-            return await Todo.findByIdAndUpdate(updateId,
-                { $set: 
-                    { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
-                })
-        });
-        const todos = await Promise.all(promises);
+    async updateAllTodos(isChecked: boolean, updateIds: Number[] ): Promise<ITodo[]> {
+        await Todo.updateMany({
+            _id: {$in: updateIds}
+        },
+        {
+            $set: 
+                { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
+        })
+        const todos = await Todo.find({_id: {$in: updateIds}});
         return todos;
     }
 
@@ -40,14 +41,15 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    async deleteAllCompletedTodos(deletedIds: Number[]): Promise<((ITodo) | null)[]> {
-        const promises = deletedIds.map( async (deletedIds) => {
-            return await Todo.findByIdAndUpdate(deletedIds,
-                { $set: 
-                    { status: TODO_STATUS.DELETED }
-                })
-        });
-        const todos = await Promise.all(promises);
-        return todos;
+    async deleteAllCompletedTodos(deletedIds: Number[]): Promise<ITodo[]> {
+        await Todo.updateMany({
+            _id: {$in: deletedIds}
+        },
+        {
+            $set: 
+                { status: TODO_STATUS.DELETED }
+        })
+        const todos = await Todo.find({_id: {$in: deletedIds}})
+        return todos ;
     }
 }

@@ -9,5 +9,5 @@ export const connectDb =  mongoose.connect(
     {useNewUrlParser: true}, 
     (err: Error) => {
         if(err) throw new Error("connect failed");
-        {console.log('connect successfully');}
+        console.log('connect successfully');
 });

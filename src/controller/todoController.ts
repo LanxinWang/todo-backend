@@ -45,10 +45,10 @@ export class TodoController implements todoControllerInterface {
         const { isChecked, updateIds } = req.body;
         this._todoService.updateAllTodos(isChecked, updateIds)
         .then((result) => {
-        res.json(result);
+            res.json(result);
         })
         .catch(() => {
-        res.status(400).send("Error update todos status!");
+            res.status(400).send("Error update todos status!");
         });
     }
 
@@ -64,13 +64,13 @@ export class TodoController implements todoControllerInterface {
     }
 
     public deleteAllCompletedTodos = (req: Request, res: Response) => {
-        const deletedIds = req.params.deletedIds.split(",").map((id) => parseInt(id));
+        const {deletedIds} = req.body;
         this._todoService.deleteAllCompletedTodos(deletedIds)
             .then((result) => {
-            res.json(result);
+                res.json(result);
             })
             .catch(() => {
-            res.status(400).send("Error delete all completed todos!");
+                res.status(400).send("Error delete all completed todos!");
             });
     }
 
