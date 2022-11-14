@@ -22,24 +22,6 @@ export class TodoService implements todoServiceInterface {
         return todo;
     }
 
-    // async updateAllTodos(isChecked: boolean): Promise<ITodo[]> {
-    //     let todos: ITodo[] = [];
-    //     const updateTodos: ITodo[] = await Todo.find( 
-    //         { status: { $nin: TODO_STATUS.DELETED } }
-    //         );
-    //     if (updateTodos.length !== 0) {
-    //         const updateIds = updateTodos.map((todo) => todo._id)
-    //         await Todo.updateMany (
-    //             { _id: { $in: updateIds } },
-    //             { $set: 
-    //                 { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
-    //             }
-    //         )
-    //         todos = await Todo.find( { _id: { $in: updateIds } } );
-    //     }
-    //     return todos;
-    // }
-
     async updateAllTodos(isChecked: boolean, updateIds: Array<Number> ): Promise<((ITodo) | null)[]> {
         const promises = updateIds.map((updateId) => {
             return Todo.findByIdAndUpdate(updateId,
