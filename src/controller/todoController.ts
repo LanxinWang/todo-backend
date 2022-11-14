@@ -42,8 +42,8 @@ export class TodoController implements todoControllerInterface {
     }
     
     public updateAllTodos = (req: Request, res: Response) => {
-        const { isChecked } = req.body;
-        this._todoService.updateAllTodos(isChecked)
+        const { isChecked, updateIds } = req.body;
+        this._todoService.updateAllTodos(isChecked, updateIds)
         .then((result) => {
         res.json(result);
         })
