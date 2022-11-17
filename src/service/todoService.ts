@@ -3,57 +3,82 @@ import { ITodo, TODO_STATUS } from "../types";
 import { todoServiceInterface } from "./todoService.interface";
 
 export class TodoService implements todoServiceInterface {
-    async getAllTodos(): Promise<ITodo[] | null> {
-        const todos: ITodo[] | [] = await Todo.find({}).sort({ _id: -1 });
+    async getAllTodos(): Promise<ITodo[]> {
+        let todos: ITodo[] = [];
+        try {
+            todos = await Todo.find({}).sort({ _id: -1 });
+        } catch (error) {
+            throw new Error("error:getAllTodos");
+        }
         return todos;
     }
 
-    async createATodo(aTodo: ITodo): Promise<ITodo> {
-        const todo: ITodo = await Todo.create(aTodo);
+    async createATodo(aTodo: ITodo): Promise<ITodo | null> {
+        let todo: ITodo| null = null; 
+        try {
+            todo = await Todo.create(aTodo);
+        } catch (error) {
+            throw new Error("error:createATodo");
+        }
         return todo;
     }
 
     async updateATodoById(_id: number, isChecked: boolean): Promise<ITodo | null > {
-        await Todo.findByIdAndUpdate(
-            _id, 
-            { $set: { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE } }
-            );
-        const todo: ITodo| null = await Todo.findById(_id);
+        let todo: ITodo| null = null;
+        try {
+            await Todo.findByIdAndUpdate(
+                _id, 
+                { $set: { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE } 
+            });
+            todo = await Todo.findById(_id);
+        } catch (error) {
+            throw new Error("error:updateATodoById");
+        }
         return todo;
     }
 
     async updateAllTodos(isChecked: boolean, updateIds: Number[] ): Promise<ITodo[]> {
-        await Todo.updateMany({
-            _id: {$in: updateIds}
-        },
-        {
-            $set: 
-                { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
-        })
-        const todos = await Todo.find({_id: {$in: updateIds}});
+        let todos: ITodo[] = [];
+        try {
+            await Todo.updateMany({
+                _id: {$in: updateIds}
+            },
+            {
+                $set: 
+                    { status: isChecked ? TODO_STATUS.COMPLETED : TODO_STATUS.ACTIVE }
+            });
+            todos = await Todo.find({_id: {$in: updateIds}});    
+        } catch (error) {
+            throw new Error("error:updateAllTodos");
+        }
         return todos;
     }
 
     async deleteATodoById(_id: number): Promise<ITodo | null> {
-        await Todo.findByIdAndUpdate({ _id  }, 
-            { $set: { status: TODO_STATUS.DELETED } });
-        const todo: ITodo| null = await Todo.findById(_id);
+        let todo: ITodo | null = null;
+        try {
+            await Todo.findByIdAndUpdate({
+                 _id  }, 
+                { $set: { status: TODO_STATUS.DELETED } 
+            });
+            todo = await Todo.findById(_id);
+        } catch (error) {
+            throw new Error("error:deleteATodoById");
+        }
         return todo;
     }
 
     async deleteAllCompletedTodos(deletedIds: Number[]): Promise<ITodo[]> {
         let todos: ITodo[] = [];
         try {
-            const {acknowledged} = await Todo.updateMany({
+            await Todo.updateMany({
                 _id: {$in: deletedIds}
             },
             {
                 $set: 
                     { status: TODO_STATUS.DELETED }
             });
-            if (acknowledged) {
-                 todos = await Todo.find({_id: {$in: deletedIds}});
-            }
+            todos = await Todo.find({_id: {$in: deletedIds}});
         } catch (error) {
             throw new Error("error:deleteAllCompletedTodos");
         }
